@@ -1,0 +1,150 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    06/10/21 20:24:43
+asm\p6.asm						     Page 1 - 1
+
+
+				COMMENT ! Resta de dos numeros introducidos por teclado:
+				        
+				        Autor: Andrés Valenzuela Ramos
+				        Fecha: 28/05/2021
+				        !
+				;DIRECTIVAS de ensmablador por acuerdo se escribiran en MAYUSCULAS y en la primera columna de la izquierda
+				.MODEL SMALL
+				.586
+				.STACK  100h
+ 0000				.DATA
+				        ;variables se definde dentro del .DATA 
+ 0000 50 72 6F 67 72 61		        titulo DB 'Programa para restar 3 numeros por teclado $'
+       6D 61 20 70 61 72
+       61 20 72 65 73 74
+       61 72 20 33 20 6E
+       75 6D 65 72 6F 73
+       20 70 6F 72 20 74
+       65 63 6C 61 64 6F
+       20 24
+ 002C 0D 0A 49 6E 74 72		        m1 DB 13,10,'Introducir primer numero: $'
+       6F 64 75 63 69 72
+       20 70 72 69 6D 65
+       72 20 6E 75 6D 65
+       72 6F 3A 20 24
+ 0049 0D 0A 49 6E 74 72		        m2 DB 13,10,'Introducir segundo numero: $'
+       6F 64 75 63 69 72
+       20 73 65 67 75 6E
+       64 6F 20 6E 75 6D
+       65 72 6F 3A 20 24
+ 0067 0D 0A 49 6E 74 72		        m3 DB 13,10,'Introducir segundo numero: $'
+       6F 64 75 63 69 72
+       20 73 65 67 75 6E
+       64 6F 20 6E 75 6D
+       65 72 6F 3A 20 24
+ 0085 30			        num1 DB '0'
+ 0086 30			        num2 DB '0'
+ 0087 30			        num3 DB '0'
+ 0088 30			        resultadoResta DB '0'
+ 0089 0D 0A 4C 61 20 72		        msgResta DB 13,10,'La resta es: $'
+       65 73 74 61 20 65
+       73 3A 20 24
+ 0000				.CODE 
+				        .STARTUP ;DIRECTIVA para el inicio de ensamblador
+ 0010  B8 ---- R		                mov ax, @data
+ 0013  8E D8			                mov ds, ax
+
+ 0015  BA 0000 R		                mov dx, OFFSET titulo
+ 0018  B4 09			                mov ah, 9h   
+ 001A  CD 21			                int 21h 
+
+				                ;---------Mensaje pidiendo que de primer numero
+ 001C  BA 002C R		                mov dx, OFFSET m1
+ 001F  B4 09			                mov ah, 9h   
+ 0021  CD 21			                int 21h 
+
+				                ;Espera de entrada de usuario y se guarda en al
+ 0023  B4 01			                MOV AH, 01H
+ 0025  CD 21			                INT 21H
+ 0027  2C 30			                SUB AL, 30H
+ 0029  A2 0085 R		                mov num1, al
+ 002C  8A 2E 0085 R		                mov ch, num1
+
+				                ;----------Mensaje pidiendo segundo numero
+ 0030  BA 0049 R		                mov dx, OFFSET m2
+ 0033  B4 09			                mov ah, 9h   
+ 0035  CD 21			                int 21h 
+
+				                ;Espera de entrada de usuario y se guarda en al
+ 0037  B4 01			                MOV AH, 01H
+ 0039  CD 21			                INT 21H
+ 003B  2C 30			                SUB AL, 30H
+ 003D  A2 0086 R		                mov num2, al
+ 0040  8A 1E 0086 R		                mov bl, num2
+
+				                ;----------Mensaje pidiendo tercer numero
+ 0044  BA 0067 R		                mov dx, OFFSET m3
+ 0047  B4 09			                mov ah, 9h   
+ 0049  CD 21			                int 21h 
+
+				                ;Espera de entrada de usuario y se guarda en al
+ 004B  B4 01			                MOV AH, 01H
+ 004D  CD 21			                INT 21H
+ 004F  2C 30			                SUB AL, 30H
+ 0051  A2 0087 R		                mov num3, al
+ 0054  8A 0E 0087 R		                mov cl, num3
+				                
+
+ 0058  2A EB			                SUB ch, bl
+ 005A  2A E9			                SUB ch, cl
+ 005C  80 C5 30			                ADD ch, 30h
+ 005F  88 2E 0088 R		                mov resultadoResta, ch
+
+ 0063  BA 0089 R		                mov dx, OFFSET msgResta
+ 0066  B4 09			                mov ah, 9h   
+ 0068  CD 21			                int 21h 
+
+ 006A  8A 16 0088 R		                mov dl, resultadoResta
+ 006E  B4 02			                mov ah, 02H
+ 0070  CD 21			                int 21h
+
+ 0072  B8 4C00			                mov ax, 4c00h
+ 0075  CD 21			                int 21h
+				        .EXIT ;DIRECTIVA donde terminará el ensablador
+				END  
+Microsoft (R) Macro Assembler Version 6.14.8444		    06/10/21 20:24:43
+asm\p6.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 0099	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 007B	  Word	  Public  'CODE'	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@Startup . . . . . . . . . . . .	L Near	 0000	  _TEXT	
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+m1 . . . . . . . . . . . . . . .	Byte	 002C	  _DATA	
+m2 . . . . . . . . . . . . . . .	Byte	 0049	  _DATA	
+m3 . . . . . . . . . . . . . . .	Byte	 0067	  _DATA	
+msgResta . . . . . . . . . . . .	Byte	 0089	  _DATA	
+num1 . . . . . . . . . . . . . .	Byte	 0085	  _DATA	
+num2 . . . . . . . . . . . . . .	Byte	 0086	  _DATA	
+num3 . . . . . . . . . . . . . .	Byte	 0087	  _DATA	
+resultadoResta . . . . . . . . .	Byte	 0088	  _DATA	
+titulo . . . . . . . . . . . . .	Byte	 0000	  _DATA	
+
+	   0 Warnings
+	   0 Errors

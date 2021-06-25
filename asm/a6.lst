@@ -1,0 +1,169 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    06/24/21 21:27:51
+asm\a6.asm						     Page 1 - 1
+
+
+				COMMENT ! Descripción del programa:
+				        Programa para gestionar archivos.
+				        Autor: Andrés Valenzuela Ramos
+				        Fecha: 24/06/2021
+				        !
+				;DIRECTIVAS de ensmablador por acuerdo se escribiran en MAYUSCULAS y en la primera columna de la izquierda
+				.MODEL SMALL
+				.586
+				.STACK  100h
+ 0000				.DATA
+				        ;variables se definde dentro del .DATA 
+ 0000 50 72 6F 67 72 61		        titulo DB 'Programa para manejar archivos',13,10,'$'
+       6D 61 20 70 61 72
+       61 20 6D 61 6E 65
+       6A 61 72 20 61 72
+       63 68 69 76 6F 73
+       0D 0A 24
+ 0021 61 36 2E 74 78 74		        nombreArchivo DB 'a6.txt',0
+       00
+ 0028 0000			        handle DW 0
+ 002A  006E [			        lectura DB 110 DUP("$"),'$'
+        24
+       ] 24
+ 0099 0D 0A 41 72 63 68		        msgCreado DB 13,10,'Archivo creado satisfactoriamente','$'
+       69 76 6F 20 63 72
+       65 61 64 6F 20 73
+       61 74 69 73 66 61
+       63 74 6F 72 69 61
+       6D 65 6E 74 65 24
+ 00BD 0D 0A 41 72 63 68		        msgEscrito DB 13,10,'Archivo escrito satisfactoriamente','$'
+       69 76 6F 20 65 73
+       63 72 69 74 6F 20
+       73 61 74 69 73 66
+       61 63 74 6F 72 69
+       61 6D 65 6E 74 65
+       24
+
+ 0000				.CODE 
+				imprimir macro cadena
+				    mov ah, 09h
+				    mov dx, OFFSET cadena
+				    int 21h
+				endm
+ 0000				openArchivo proc
+ 0000  B4 3D			    mov ah, 3dh  ;Código para abrir (leer)
+ 0002  B0 01			    mov al, 1h  ;0h es solo lectura, 1h es solo escritura, 2h es lectura Y escritura
+ 0004  BA 0021 R		    mov dx, OFFSET nombreArchivo
+ 0007  CD 21			    int 21h
+ 0009  C3			    ret
+ 000A				openArchivo endp
+				        .STARTUP ;DIRECTIVA para el inicio de ensamblador
+ 001A  B8 ---- R		                mov ax, @data
+ 001D  8E D8			                mov ds, ax
+
+				                ;mov dx, OFFSET titulo
+				                ;mov ah, 9h   
+				                ;int 21h 
+				                imprimir titulo
+ 001F  B4 09		     1	    mov ah, 09h
+ 0021  BA 0000 R	     1	    mov dx, OFFSET titulo
+ 0024  CD 21		     1	    int 21h
+				                
+				                ;----------------------
+				                ;Crear el Archivo 3Ch
+ 0026  B4 3C			                mov ah, 3Ch
+ 0028  B9 0000			                mov cx,0  ;xor cx, cx
+ 002B  BA 0021 R		                mov dx, OFFSET nombreArchivo
+ 002E  CD 21			                int 21h
+ 0030  72 3A			                JC salir  ;Por si sucede un error
+
+				                imprimir msgCreado
+ 0032  B4 09		     1	    mov ah, 09h
+ 0034  BA 0099 R	     1	    mov dx, OFFSET msgCreado
+ 0037  CD 21		     1	    int 21h
+ 0039  A3 0028 R		                mov handle, ax
+ 003C  8B 1E 0028 R		                mov bx, handle
+ 0040  B4 3E			                mov ah, 3eh
+ 0042  CD 21			                int 21h
+
+				                
+				                ;Escribir en archivo
+				                ;mov ah, 3dh  ;Código para abrir (leer)
+				                ;mov al, 1h  ;0h es solo lectura, 1h es solo escritura, 2h es lectura Y escritura
+				                ;mov dx, OFFSET nombreArchivo
+				                ;int 21h
+ 0044  E8 FFB9			                call openArchivo
+ 0047  72 23			                JC salir
+ 0049  A3 0028 R		                mov handle, ax
+ 004C  8B 1E 0028 R		                mov bx, handle
+ 0050  B4 40			                mov ah, 40h  ;Código para escribir
+ 0052  B9 006E			                mov cx, 110
+ 0055  BA 0000 R		                mov dx, OFFSET titulo
+ 0058  CD 21			                int 21h
+ 005A  3B C8			                cmp cx, ax
+ 005C  75 0E			                jne salir
+				                ;Mensaje de confirmación de escritura
+				                imprimir msgEscrito
+ 005E  B4 09		     1	    mov ah, 09h
+ 0060  BA 00BD R	     1	    mov dx, OFFSET msgEscrito
+ 0063  CD 21		     1	    int 21h
+ 0065  A3 0028 R		                mov handle, ax
+ 0068  B4 3E			                mov ah, 3eh
+ 006A  CD 21			                int 21h
+
+				                ;----------------------
+ 006C				        salir:
+
+ 006C  B8 4C00			                mov ax, 4c00h
+ 006F  CD 21			                int 21h
+				        .EXIT ;DIRECTIVA donde terminará el ensablador
+				END  
+Microsoft (R) Macro Assembler Version 6.14.8444		    06/24/21 21:27:51
+asm\a6.asm						     Symbols 2 - 1
+
+
+
+
+Macros:
+
+                N a m e                 Type
+
+imprimir . . . . . . . . . . . .	Proc
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 00E2	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0075	  Word	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+openArchivo  . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 000A Public
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@Startup . . . . . . . . . . . .	L Near	 000A	  _TEXT	
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+handle . . . . . . . . . . . . .	Word	 0028	  _DATA	
+lectura  . . . . . . . . . . . .	Byte	 002A	  _DATA	
+msgCreado  . . . . . . . . . . .	Byte	 0099	  _DATA	
+msgEscrito . . . . . . . . . . .	Byte	 00BD	  _DATA	
+nombreArchivo  . . . . . . . . .	Byte	 0021	  _DATA	
+salir  . . . . . . . . . . . . .	L Near	 006C	  _TEXT	
+titulo . . . . . . . . . . . . .	Byte	 0000	  _DATA	
+
+	   0 Warnings
+	   0 Errors

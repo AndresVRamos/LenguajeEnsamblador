@@ -1,0 +1,88 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/19/21 19:11:43
+asm\p2.asm						     Page 1 - 1
+
+
+				COMMENT ! Descripción del programa:
+				        SUMAR DOS NUMEROS
+				        Autor: Andrés Valenzuela Ramos
+				        Fecha: 19/05/2021
+				        !
+				;DIRECTIVAS de ensmablador por acuerdo se escribiran en MAYUSCULAS y en la primera columna de la izquierda
+				.MODEL SMALL
+				.586
+				.STACK  100h
+ 0000				.DATA
+				        ;variables se definde dentro del .DATA 
+ 0000 50 72 6F 67 72 61		        Message DB 'Programa que suma dos numeros', 13, 10, '$'
+       6D 61 20 71 75 65
+       20 73 75 6D 61 20
+       64 6F 73 20 6E 75
+       6D 65 72 6F 73 0D
+       0A 24
+ 0020 4C 61 20 73 75 6D		        msgResultado DB 'La suma es: ',13,10, '$'
+       61 20 65 73 3A 20
+       0D 0A 24
+ 002F 30			        resultadoSuma DB '0'
+ 0000				.CODE 
+				        .STARTUP ;DIRECTIVA para el inicio de ensamblador
+ 0010  B8 ---- R		                mov ax, @data
+ 0013  8E D8			                mov ds, ax
+
+ 0015  BA 0000 R		                mov dx, OFFSET Message
+ 0018  B4 09			                mov ah, 9h   
+ 001A  CD 21			                int 21h 
+
+ 001C  B1 03			                MOV CL, 3 ;Asignando los valores
+ 001E  B2 02			                MOV DL, 2 ;Asignando los valores
+ 0020  02 CA			                ADD CL, DL ;Realizando la operación aritmética
+
+ 0022  BA 0020 R		                mov dx, OFFSET msgResultado
+ 0025  B4 09			                mov ah, 9h   
+ 0027  CD 21			                int 21h 
+
+ 0029  80 C1 30			                ADD CL, 48 ;48 para desplazarlos en los caracteres imprimibles del codigo ASCII
+ 002C  88 0E 002F R		                MOV resultadoSuma, CL 
+ 0030  B4 02			                MOV AH, 2h ;Imprimir en pantalla un caracter según el registro DL
+ 0032  8A 16 002F R		                MOV DL, resultadoSuma
+ 0036  CD 21			                INT 21h
+
+ 0038  B8 4C00			                mov ax, 4c00h
+ 003B  CD 21			                int 21h
+				        .EXIT ;DIRECTIVA donde terminará el ensablador
+				END  
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/19/21 19:11:43
+asm\p2.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 0030	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0041	  Word	  Public  'CODE'	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@Startup . . . . . . . . . . . .	L Near	 0000	  _TEXT	
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+Message  . . . . . . . . . . . .	Byte	 0000	  _DATA	
+msgResultado . . . . . . . . . .	Byte	 0020	  _DATA	
+resultadoSuma  . . . . . . . . .	Byte	 002F	  _DATA	
+
+	   0 Warnings
+	   0 Errors

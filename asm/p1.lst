@@ -1,0 +1,87 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/12/21 23:23:51
+asm\p1.asm						     Page 1 - 1
+
+
+				COMMENT ! Programa para imprimir en pantalla
+				        utilizando el codigo 9H de la interrupción 21H
+				        Autor: Mi nombre
+				        Fecha: Hoy en formato dd/MM/yyyy
+				        !
+				;DIRECTIVAS de ensmablador por acuerdo se escribiran en MAYUSCULAS y en la primera columna de la izquierda
+				.MODEL SMALL
+				.586
+				.STACK  100h
+ 0000				.DATA
+				        ;variables se definde dentro del .DATA 
+ 0000 42 69 65 6E 76 65		        Message DB 'Bienvenido, a ensamblador', 13, 10, '$'
+       6E 69 64 6F 2C 20
+       61 20 65 6E 73 61
+       6D 62 6C 61 64 6F
+       72 0D 0A 24
+ 001C 4F 74 72 6F 20 66		        OtroTipoMsg DB 'Otro forma de cadena',0DH,0ah,'$' 
+       6F 72 6D 61 20 64
+       65 20 63 61 64 65
+       6E 61 0D 0A 24
+ 0033 0D 0A 45 73 20 75		        Cadena DB 13,10,'Es una cadena de tipo DB = BYTE','$'
+       6E 61 20 63 61 64
+       65 6E 61 20 64 65
+       20 74 69 70 6F 20
+       44 42 20 3D 20 42
+       59 54 45 24
+ 0000				.CODE 
+				.STARTUP ;DIRECTIVA para el inicio de ensamblador
+ 0010  B8 ---- R		        mov ax, @data
+ 0013  8E D8			        mov ds, ax
+
+ 0015  BA 0000 R		        mov dx, OFFSET Message
+ 0018  B4 09			        mov ah, 9h   
+ 001A  CD 21			        int 21h 
+
+ 001C  8D 16 001C R		        lea dx, OtroTipoMsg
+ 0020  B4 09			        mov ah, 9h ;Codigo de función para desplegar en pantalla
+ 0022  CD 21			        int 21h ;   Interrupcion para llamada de msdos
+
+ 0024  BA 0033 R		        mov dx, OFFSET Cadena
+ 0027  B4 09			        mov ah, 9h   
+ 0029  CD 21			        int 21h 
+
+ 002B  B8 4C00			        mov ax, 4c00h
+ 002E  CD 21			        int 21h
+				.EXIT ;DIRECTIVA donde terminará el ensablador
+				END  
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/12/21 23:23:51
+asm\p1.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 0055	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0034	  Word	  Public  'CODE'	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@Startup . . . . . . . . . . . .	L Near	 0000	  _TEXT	
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+Cadena . . . . . . . . . . . . .	Byte	 0033	  _DATA	
+Message  . . . . . . . . . . . .	Byte	 0000	  _DATA	
+OtroTipoMsg  . . . . . . . . . .	Byte	 001C	  _DATA	
+
+	   0 Warnings
+	   0 Errors

@@ -1,0 +1,246 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    06/10/21 21:43:15
+asm\p7.asm						     Page 1 - 1
+
+
+				COMMENT ! Resta de dos numeros introducidos por teclado:
+				        
+				        Autor: Andrés Valenzuela Ramos
+				        Fecha: 28/05/2021
+				        !
+				;DIRECTIVAS de ensmablador por acuerdo se escribiran en MAYUSCULAS y en la primera columna de la izquierda
+				.MODEL SMALL
+				.586
+				.STACK  100h
+ 0000				.DATA
+				        ;variables se definde dentro del .DATA 
+ 0000 50 72 6F 67 72 61		        titulo DB 'Programa para restar 3 numeros por teclado $'
+       6D 61 20 70 61 72
+       61 20 72 65 73 74
+       61 72 20 33 20 6E
+       75 6D 65 72 6F 73
+       20 70 6F 72 20 74
+       65 63 6C 61 64 6F
+       20 24
+ 002C 0A 0D 49 74 65 72		        msgit DB 10,13, 'Iteracion numero $'
+       61 63 69 6F 6E 20
+       6E 75 6D 65 72 6F
+       20 24
+ 0040 0D 0A 49 6E 74 72		        m1 DB 13,10,'Introducir primer numero: $'
+       6F 64 75 63 69 72
+       20 70 72 69 6D 65
+       72 20 6E 75 6D 65
+       72 6F 3A 20 24
+ 005D 0D 0A 49 6E 74 72		        m2 DB 13,10,'Introducir segundo numero: $'
+       6F 64 75 63 69 72
+       20 73 65 67 75 6E
+       64 6F 20 6E 75 6D
+       65 72 6F 3A 20 24
+ 007B 0D 0A 49 6E 74 72		        m3 DB 13,10,'Introducir segundo numero: $'
+       6F 64 75 63 69 72
+       20 73 65 67 75 6E
+       64 6F 20 6E 75 6D
+       65 72 6F 3A 20 24
+ 0099 30			        num1 DB '0'
+ 009A 30			        num2 DB '0'
+ 009B 30			        num3 DB '0'
+ 009C 30			        resultadoResta DB '0'
+ 009D 0D 0A 4C 61 20 72		        msgResta DB 13,10,'La resta es: $'
+       65 73 74 61 20 65
+       73 3A 20 24
+ 00AD 00			        contador DB 0
+ 0000				.CODE 
+				        .STARTUP ;DIRECTIVA para el inicio de ensamblador
+ 0010  B8 ---- R		                mov ax, @data
+ 0013  8E D8			                mov ds, ax
+
+				    ;             mov dx, OFFSET titulo
+				    ;             mov ah, 9h   
+				    ;              int 21h 
+
+				    ;             mov cx, 0000h ; O XOR CX, CX
+				    ;             mov cx, 6
+				    ; ciclo:
+				    ;             INC contador
+				    ;             MOV AH, 9
+				    ;             LEA DX, msgit
+				    ;             INT 21h
+
+				    ;             mov dl, contador
+				    ;             ADD DL, 30H
+				    ;             mov ah, 02H
+				    ;             int 21h
+
+				    ;             ;---------Mensaje pidiendo que de primer numero
+				    ;             mov dx, OFFSET m1
+				    ;             mov ah, 9h   
+				    ;             int 21h 
+
+				    ;             ;Espera de entrada de usuario y se guarda en al
+				    ;             MOV AH, 01H
+				    ;             INT 21H
+				    ;             SUB AL, 30H
+				    ;             mov num1, al
+				    ;             mov ch, num1
+
+				    ;             ;----------Mensaje pidiendo segundo numero
+				    ;             mov dx, OFFSET m2
+				    ;             mov ah, 9h   
+				    ;             int 21h 
+
+				    ;             ;Espera de entrada de usuario y se guarda en al
+				    ;             MOV AH, 01H
+				    ;             INT 21H
+				    ;             SUB AL, 30H
+				    ;             mov num2, al
+				    ;             mov bl, num2
+
+				    ;             ;----------Mensaje pidiendo tercer numero
+				    ;             mov dx, OFFSET m3
+				    ;             mov ah, 9h   
+				    ;             int 21h 
+
+				    ;             ;Espera de entrada de usuario y se guarda en al
+				    ;             MOV AH, 01H
+				    ;             INT 21H
+				    ;             SUB AL, 30H
+				    ;             mov num3, al
+				    ;             mov cl, num3
+				                
+
+				    ;             SUB ch, bl
+				    ;             SUB ch, cl
+				    ;             ADD ch, 30h
+				    ;             mov resultadoResta, ch
+
+				    ;             mov dx, OFFSET msgResta
+				    ;             mov ah, 9h   
+				    ;             int 21h 
+
+				    ;             mov dl, resultadoResta
+				    ;             mov ah, 02H
+				    ;             int 21h
+
+				    ;             INC CX
+				    ;             LOOP ciclo
+
+				                ;;;
+ 0015  BA 0000 R		                mov dx, OFFSET titulo
+ 0018  B4 09			                mov ah, 9h   
+ 001A  CD 21			                int 21h 
+
+ 001C				    ciclo2:
+
+ 001C  FE 06 00AD R		                INC contador
+ 0020  B4 09			                MOV AH, 9
+ 0022  8D 16 002C R		                LEA DX, msgit
+ 0026  CD 21			                INT 21h
+
+ 0028  8A 16 00AD R		                mov dl, contador
+ 002C  80 C2 30			                ADD DL, 30H
+ 002F  B4 02			                mov ah, 02H
+ 0031  CD 21			                int 21h
+
+				                 ;---------Mensaje pidiendo que de primer numero
+ 0033  BA 0040 R		                mov dx, OFFSET m1
+ 0036  B4 09			                mov ah, 9h   
+ 0038  CD 21			                int 21h 
+
+				                 ;Espera de entrada de usuario y se guarda en al
+ 003A  B4 01			                 MOV AH, 01H
+ 003C  CD 21			                 INT 21H
+ 003E  2C 30			                 SUB AL, 30H
+ 0040  A2 0099 R		                 mov num1, al
+ 0043  8A 2E 0099 R		                 mov ch, num1
+
+				                 ;----------Mensaje pidiendo segundo numero
+ 0047  BA 005D R		                 mov dx, OFFSET m2
+ 004A  B4 09			                 mov ah, 9h   
+ 004C  CD 21			                 int 21h 
+
+				                 ;Espera de entrada de usuario y se guarda en al
+ 004E  B4 01			                 MOV AH, 01H
+ 0050  CD 21			                 INT 21H
+ 0052  2C 30			                 SUB AL, 30H
+ 0054  A2 009A R		                 mov num2, al
+ 0057  8A 1E 009A R		                 mov bl, num2
+
+				                 ;----------Mensaje pidiendo tercer numero
+ 005B  BA 007B R		                 mov dx, OFFSET m3
+ 005E  B4 09			                 mov ah, 9h   
+ 0060  CD 21			                 int 21h 
+
+				                 ;Espera de entrada de usuario y se guarda en al
+ 0062  B4 01			                 MOV AH, 01H
+ 0064  CD 21			                 INT 21H
+ 0066  2C 30			                 SUB AL, 30H
+ 0068  A2 009B R		                 mov num3, al
+ 006B  8A 0E 009B R		                 mov cl, num3
+				                
+
+ 006F  2A EB			                 SUB ch, bl
+ 0071  2A E9			                 SUB ch, cl
+ 0073  80 C5 30			                 ADD ch, 30h
+ 0076  88 2E 009C R		                 mov resultadoResta, ch
+
+ 007A  BA 009D R		                 mov dx, OFFSET msgResta
+ 007D  B4 09			                 mov ah, 9h   
+ 007F  CD 21			                 int 21h 
+
+ 0081  8A 16 009C R		                 mov dl, resultadoResta
+ 0085  B4 02			                 mov ah, 02H
+ 0087  CD 21			                 int 21h
+
+				                 
+ 0089  80 3E 00AD R 06		                 CMP contador, 6
+ 008E  75 8C			                 JNE ciclo2
+				                 ;;;
+
+ 0090  B8 4C00			                mov ax, 4c00h
+ 0093  CD 21			                int 21h
+				        .EXIT ;DIRECTIVA donde terminará el ensablador
+				END  
+Microsoft (R) Macro Assembler Version 6.14.8444		    06/10/21 21:43:15
+asm\p7.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 00AE	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0099	  Word	  Public  'CODE'	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@Startup . . . . . . . . . . . .	L Near	 0000	  _TEXT	
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+ciclo2 . . . . . . . . . . . . .	L Near	 001C	  _TEXT	
+contador . . . . . . . . . . . .	Byte	 00AD	  _DATA	
+m1 . . . . . . . . . . . . . . .	Byte	 0040	  _DATA	
+m2 . . . . . . . . . . . . . . .	Byte	 005D	  _DATA	
+m3 . . . . . . . . . . . . . . .	Byte	 007B	  _DATA	
+msgResta . . . . . . . . . . . .	Byte	 009D	  _DATA	
+msgit  . . . . . . . . . . . . .	Byte	 002C	  _DATA	
+num1 . . . . . . . . . . . . . .	Byte	 0099	  _DATA	
+num2 . . . . . . . . . . . . . .	Byte	 009A	  _DATA	
+num3 . . . . . . . . . . . . . .	Byte	 009B	  _DATA	
+resultadoResta . . . . . . . . .	Byte	 009C	  _DATA	
+titulo . . . . . . . . . . . . .	Byte	 0000	  _DATA	
+
+	   0 Warnings
+	   0 Errors

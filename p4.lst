@@ -1,0 +1,76 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    03/21/20 00:52:55
+c:\masm614\codigos\p4.asm				     Page 1 - 1
+
+
+				;; FIRST.ASM--Our first Assembly Language Program.  This program 
+				;;   displays the line 'Hello, my name is Bill Jones' on the CRT screen.
+				;;
+				;;  Program text from "Assembly Language for the IBM PC Family" by
+				;;   William B. Jones, (c) Copyright 1992, 1997, 2001, Scott/Jones Inc.
+				;;
+				        .MODEL  SMALL
+				        .586
+
+				        .STACK  100h
+
+ 0000				        .DATA
+ 0000 48 65 6C 6C 6F 2C		Message DB  'Hello, my name is Bill Jones', 13, 10, '$'
+       20 6D 79 20 6E 61
+       6D 65 20 69 73 20
+       42 69 6C 6C 20 4A
+       6F 6E 65 73 0D 0A
+       24
+
+ 0000				        .CODE
+ 0000				Hello   PROC
+ 0000  B8 ---- R		        mov ax, @data
+ 0003  8E D8			        mov ds, ax
+ 0005  BA 0000 R		        mov dx, OFFSET Message
+ 0008  B4 09			        mov ah, 9h ;    The function code for 'display string'
+ 000A  CD 21			        int 21h ;   The standard way to call MS/PCDOS
+ 000C  B0 00			        mov al, 0 ; Return code of 0
+ 000E  B4 4C			        mov ah, 4ch ;   Exit back to MS/PCDOS
+ 0010  CD 21			        int 21h
+ 0012				Hello   ENDP
+
+				        END Hello ; Tells where to start execution
+Microsoft (R) Macro Assembler Version 6.14.8444		    03/21/20 00:52:55
+c:\masm614\codigos\p4.asm				     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 001F	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0012	  Word	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+Hello  . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0012 Public
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+Message  . . . . . . . . . . . .	Byte	 0000	  _DATA	
+
+	   0 Warnings
+	   0 Errors

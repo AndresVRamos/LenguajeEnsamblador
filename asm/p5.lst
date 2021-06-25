@@ -1,0 +1,122 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/28/21 19:35:55
+asm\p5.asm						     Page 1 - 1
+
+
+				COMMENT ! Descripción del programa:
+				        Sumar y restar
+				        Autor: Andrés Valenzuela Ramos
+				        Fecha: 19/05/2021
+				        !
+				;DIRECTIVAS de ensmablador por acuerdo se escribiran en MAYUSCULAS y en la primera columna de la izquierda
+				.MODEL SMALL
+				.586
+				.STACK  100h
+ 0000				.DATA
+				        ;variables se definde dentro del .DATA 
+ 0000 50 72 6F 67 72 61		        Message DB 'Programa que suma y resta dos numeros', 13, 10, '$'
+       6D 61 20 71 75 65
+       20 73 75 6D 61 20
+       79 20 72 65 73 74
+       61 20 64 6F 73 20
+       6E 75 6D 65 72 6F
+       73 0D 0A 24
+ 0028 4C 61 20 73 75 6D		        msgResultadoSuma DB 'La suma es: $'
+       61 20 65 73 3A 20
+       24
+ 0035 4C 61 20 72 65 73		        msgResultadoResta DB 'La resta es: $'
+       74 61 20 65 73 3A
+       20 24
+ 0043 20 0D 0A 24		        msglineaVacia DB ' ',13,10, '$'
+ 0047 30			        resultadoSuma DB '0'
+ 0048 30			        resultadoResta DB '0'
+ 0049 20			        lineaVacia DB ' '
+ 0000				.CODE 
+				        .STARTUP ;DIRECTIVA para el inicio de ensamblador
+ 0010  B8 ---- R		                mov ax, @data
+ 0013  8E D8			                mov ds, ax
+
+ 0015  BA 0000 R		                mov dx, OFFSET Message
+ 0018  B4 09			                mov ah, 9h   
+ 001A  CD 21			                int 21h 
+
+				                ;Operación 1 ADD
+ 001C  B1 02			                MOV CL, 2 ;Asignando los valores
+ 001E  B2 05			                MOV DL, 5 ;Asignando los valores
+ 0020  12 CA			                ADC CL, DL ;Realizando la operación aritmética
+
+ 0022  BA 0028 R		                mov dx, OFFSET msgResultadoSuma
+ 0025  B4 09			                mov ah, 9h
+ 0027  CD 21			                int 21h
+
+ 0029  80 C1 30			                ADD CL, 48 ;48 para desplazarlos en los caracteres imprimibles del codigo ASCII
+ 002C  88 0E 0047 R		                MOV resultadoSuma, CL 
+				                
+ 0030  B4 02			                MOV AH, 2h ;Imprimir en pantalla un caracter según el registro DL
+ 0032  8A 16 0047 R		                MOV DL, resultadoSuma
+ 0036  CD 21			                INT 21h
+
+				                ;Salto de Línea
+ 0038  BA 0043 R		                mov dx, OFFSET msglineaVacia
+ 003B  B4 09			                mov ah, 9h
+ 003D  CD 21			                int 21h
+
+				                ;Operación 2 SUB
+ 003F  B1 05			                MOV CL, 5 ;Asignando los valores
+ 0041  B2 02			                MOV DL, 2 ;Asignando los valores
+ 0043  1A CA			                SBB CL, DL ;Realizando la operación aritmética
+
+ 0045  BA 0035 R		                mov dx, OFFSET msgResultadoResta
+ 0048  B4 09			                mov ah, 9h
+ 004A  CD 21			                int 21h
+
+ 004C  80 C1 30			                ADD CL, 48 ;48 para desplazarlos en los caracteres imprimibles del codigo ASCII
+ 004F  88 0E 0048 R		                MOV resultadoResta, CL 
+				                
+ 0053  B4 02			                MOV AH, 2h ;Imprimir en pantalla un caracter según el registro DL
+ 0055  8A 16 0048 R		                MOV DL, resultadoResta
+ 0059  CD 21			                INT 21h
+
+ 005B  B8 4C00			                mov ax, 4c00h
+ 005E  CD 21			                int 21h
+				        .EXIT ;DIRECTIVA donde terminará el ensablador
+				END  
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/28/21 19:35:55
+asm\p5.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 004A	  Word	  Public  'DATA'	
+STACK  . . . . . . . . . . . . .	16 Bit	 0100	  Para	  Stack	  'STACK'	 
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0064	  Word	  Public  'CODE'	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0000h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@Startup . . . . . . . . . . . .	L Near	 0000	  _TEXT	
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+Message  . . . . . . . . . . . .	Byte	 0000	  _DATA	
+lineaVacia . . . . . . . . . . .	Byte	 0049	  _DATA	
+msgResultadoResta  . . . . . . .	Byte	 0035	  _DATA	
+msgResultadoSuma . . . . . . . .	Byte	 0028	  _DATA	
+msglineaVacia  . . . . . . . . .	Byte	 0043	  _DATA	
+resultadoResta . . . . . . . . .	Byte	 0048	  _DATA	
+resultadoSuma  . . . . . . . . .	Byte	 0047	  _DATA	
+
+	   0 Warnings
+	   0 Errors
